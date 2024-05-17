@@ -1,80 +1,13 @@
-# OpenDTU
+# Nulleinspeisung-Node-RED | OpenDTU | MQTT 
 
-[![OpenDTU Build](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml)
-[![cpplint](https://github.com/tbnobody/OpenDTU/actions/workflows/cpplint.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/cpplint.yml)
-[![Yarn Linting](https://github.com/tbnobody/OpenDTU/actions/workflows/yarnlint.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/yarnlint.yml)
+[![OpenDTU]([https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml](https://github.com/tbnobody/OpenDTU))
+[![Node-RED]([(https://nodered.org))
 
-## !! IMPORTANT UPGRADE NOTES !!
-
-If you are upgrading from a version before 15.03.2023 you have to upgrade the partition table of the ESP32. Please follow the [this](docs/UpgradePartition.md) documentation!
-
-## Background
-
-This project was started from [this](https://www.mikrocontroller.net/topic/525778) discussion (Mikrocontroller.net).
-It was the goal to replace the original Hoymiles DTU (Telemetry Gateway) with their cloud access. With a lot of reverse engineering the Hoymiles protocol was decrypted and analyzed.
-
-## Documentation
-
-The documentation can be found [here](https://tbnobody.github.io/OpenDTU-docs/).
-Please feel free to support and create a PR in [this](https://github.com/tbnobody/OpenDTU-docs) repository to make the documentation even better.
-
-## Breaking changes
+## NodeRED Flow
 
 Generated using: `git log --date=short --pretty=format:"* %h%x09%ad%x09%s" | grep BREAKING`
 
 ```code
-* 1b637f08      2024-01-30      BREAKING CHANGE: Web API Endpoint /api/livedata/status and /api/prometheus/metrics
-* e1564780      2024-01-30      BREAKING CHANGE: Web API Endpoint /api/livedata/status and /api/prometheus/metrics
-* f0b5542c      2024-01-30      BREAKING CHANGE: Web API Endpoint /api/livedata/status and /api/prometheus/metrics
-* c27ecc36      2024-01-29      BREAKING CHANGE: Web API Endpoint /api/livedata/status
-* 71d1b3b       2023-11-07      BREAKING CHANGE: Home Assistant Auto Discovery to new naming scheme
-* 04f62e0       2023-04-20      BREAKING CHANGE: Web API Endpoint /api/eventlog/status no nested serial object
-* 59f43a8       2023-04-17      BREAKING CHANGE: Web API Endpoint /api/devinfo/status requires GET parameter inv=
-* 318136d       2023-03-15      BREAKING CHANGE: Updated partition table: Make sure you have a configuration backup and completly reflash the device!
-* 3b7aef6       2023-02-13      BREAKING CHANGE: Web API!
-* d4c838a       2023-02-06      BREAKING CHANGE: Prometheus API!
-* daf847e       2022-11-14      BREAKING CHANGE: Removed deprecated config parsing method
-* 69b675b       2022-11-01      BREAKING CHANGE: Structure WebAPI /api/livedata/status changed
-* 27ed4e3       2022-10-31      BREAKING: Change power factor from percent value to value between 0 and 1
+[{"id":"b25cd44df48429b5","type":"tab","label":"Flow 1","disabled":true,"info":"","env":[]},{"id":"176d8c7d11a5c0d1","type":"mqtt out","z":"b25cd44df48429b5","name":"WR MQTT","topic":"solar/SERIENNUMMER_DES_WECHSELRICHTERS/cmd/limit_nonpersistent_relative","qos":"","retain":"","respTopic":"","contentType":"","userProps":"","correl":"","expiry":"","broker":"87b2d138566ff5cc","x":1670,"y":320,"wires":[]},{"id":"a1a3647f577a1900","type":"inject","z":"b25cd44df48429b5","name":"alle 15 sekunden","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"16","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":130,"y":320,"wires":[["7bbf98821b7d784c"]]},{"id":"703d1fe697175c20","type":"function","z":"b25cd44df48429b5","name":"Berechnung für WR Limit","func":"// MAX generation of the inverter Watts\nvar maxPower = 1500;\n\n// Get current power limit or default\nvar power = context.get('power') || maxPower;\npower += msg.payload;\n\n// clamp power between 0 and max\nif (power > maxPower) power = maxPower;\nif (power < 0) power = 1;\n\n\n// store current powerlimit and update message\ncontext.set('power', power);\nmsg.payload = power;\n\nreturn msg;","outputs":1,"timeout":"","noerr":0,"initialize":"","finalize":"","libs":[],"x":990,"y":320,"wires":[["c1b6b5ab6f5d47d4","b0c2e49e6d7dd9da"]]},{"id":"905059e3e97e32e9","type":"api-current-state","z":"b25cd44df48429b5","name":"Aktueller Verbrauch in W","server":"64eac69f.fe1218","version":3,"outputs":1,"halt_if":"","halt_if_type":"str","halt_if_compare":"is","entity_id":"sensor.tasmota_lk13be_power_curr","state_type":"num","blockInputOverrides":false,"outputProperties":[{"property":"payload","propertyType":"msg","value":"","valueType":"entityState"},{"property":"data","propertyType":"msg","value":"","valueType":"entity"}],"for":"0","forType":"num","forUnits":"minutes","override_topic":false,"state_location":"payload","override_payload":"msg","entity_location":"data","override_data":"msg","x":670,"y":320,"wires":[["703d1fe697175c20","dfb1de93b5139f49"]]},{"id":"c1b6b5ab6f5d47d4","type":"rbe","z":"b25cd44df48429b5","name":"entprellen","func":"deadband","gap":"30","start":"","inout":"in","septopics":false,"property":"payload","topi":"topic","x":1200,"y":320,"wires":[["46dd59a169196802","7e02cb429a063346"]]},{"id":"b0c2e49e6d7dd9da","type":"debug","z":"b25cd44df48429b5","name":"Berechnung","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":1190,"y":440,"wires":[]},{"id":"dfb1de93b5139f49","type":"debug","z":"b25cd44df48429b5","name":"Verbrauch akt.","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":920,"y":440,"wires":[]},{"id":"7bbf98821b7d784c","type":"time-range-switch","z":"b25cd44df48429b5","name":"Zeitsteuerung","lat":"52.199424","lon":"13.4742016","startTime":"sunrise","endTime":"sunset","startOffset":"120","endOffset":"-30","x":380,"y":280,"wires":[["905059e3e97e32e9"],[]]},{"id":"46dd59a169196802","type":"debug","z":"b25cd44df48429b5","name":"Entprellen","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":1420,"y":440,"wires":[]},{"id":"7e02cb429a063346","type":"range","z":"b25cd44df48429b5","minin":"0","maxin":"1500","minout":"8","maxout":"100","action":"scale","round":true,"property":"payload","name":"Ändern auf Prozent","x":1450,"y":320,"wires":[["f3280877d71191df","176d8c7d11a5c0d1"]]},{"id":"f3280877d71191df","type":"debug","z":"b25cd44df48429b5","name":"Auf Prozent","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":1670,"y":440,"wires":[]},{"id":"87b2d138566ff5cc","type":"mqtt-broker","name":"","broker":"192.168.188.88","port":"1883","clientid":"","autoConnect":true,"usetls":false,"protocolVersion":"4","keepalive":"60","cleansession":true,"autoUnsubscribe":true,"birthTopic":"","birthQos":"0","birthPayload":"","birthMsg":{},"closeTopic":"","closeQos":"0","closePayload":"","closeMsg":{},"willTopic":"","willQos":"0","willPayload":"","willMsg":{},"userProps":"","sessionExpiry":""},{"id":"64eac69f.fe1218","type":"server","name":"Home Assistant","version":5,"addon":true,"rejectUnauthorizedCerts":true,"ha_boolean":"y|yes|true|on|home|open","connectionDelay":true,"cacheJson":true,"heartbeat":false,"heartbeatInterval":30,"areaSelector":"friendlyName","deviceSelector":"friendlyName","entitySelector":"friendlyName","statusSeparator":"at: ","statusYear":"hidden","statusMonth":"short","statusDay":"numeric","statusHourCycle":"h23","statusTimeFormat":"h:m","enableGlobalContextStore":true}]
 ```
 
-## Currently supported Inverters
-
-| Model                | Required RF Module | DC Inputs | MPP-Tracker | AC Phases |
-| ---------------------| ------------------ | --------- | ----------- | --------- |
-| Hoymiles HM-300-1T   | NRF24L01+          | 1         | 1           | 1         |
-| Hoymiles HM-350-1T   | NRF24L01+          | 1         | 1           | 1         |
-| Hoymiles HM-400-1T   | NRF24L01+          | 1         | 1           | 1         |
-| Hoymiles HM-600-2T   | NRF24L01+          | 2         | 2           | 1         |
-| Hoymiles HM-700-2T   | NRF24L01+          | 2         | 2           | 1         |
-| Hoymiles HM-800-2T   | NRF24L01+          | 2         | 2           | 1         |
-| Hoymiles HM-1000-4T  | NRF24L01+          | 4         | 2           | 1         |
-| Hoymiles HM-1200-4T  | NRF24L01+          | 4         | 2           | 1         |
-| Hoymiles HM-1500-4T  | NRF24L01+          | 4         | 2           | 1         |
-| Hoymiles HMS-300-1T  | CMT2300A           | 1         | 1           | 1         |
-| Hoymiles HMS-350-1T  | CMT2300A           | 1         | 1           | 1         |
-| Hoymiles HMS-400-1T  | CMT2300A           | 1         | 1           | 1         |
-| Hoymiles HMS-450-1T  | CMT2300A           | 1         | 1           | 1         |
-| Hoymiles HMS-500-1T  | CMT2300A           | 1         | 1           | 1         |
-| Hoymiles HMS-600-2T  | CMT2300A           | 2         | 2           | 1         |
-| Hoymiles HMS-700-2T  | CMT2300A           | 2         | 2           | 1         |
-| Hoymiles HMS-800-2T  | CMT2300A           | 2         | 2           | 1         |
-| Hoymiles HMS-900-2T  | CMT2300A           | 2         | 2           | 1         |
-| Hoymiles HMS-1000-2T | CMT2300A           | 2         | 2           | 1         |
-| Hoymiles HMS-1600-4T | CMT2300A           | 4         | 4           | 1         |
-| Hoymiles HMS-1800-4T | CMT2300A           | 4         | 4           | 1         |
-| Hoymiles HMS-2000-4T | CMT2300A           | 4         | 4           | 1         |
-| Hoymiles HMT-1600-4T | CMT2300A           | 4         | 2           | 3         |
-| Hoymiles HMT-1800-4T | CMT2300A           | 4         | 2           | 3         |
-| Hoymiles HMT-2000-4T | CMT2300A           | 4         | 2           | 3         |
-| Hoymiles HMT-1800-6T | CMT2300A           | 6         | 3           | 3         |
-| Hoymiles HMT-2250-6T | CMT2300A           | 6         | 3           | 3         |
-| Solenso SOL-H350     | NRF24L01+          | 1         | 1           | 1         |
-| Solenso SOL-H400     | NRF24L01+          | 1         | 1           | 1         |
-| Solenso SOL-H800     | NRF24L01+          | 2         | 2           | 1         |
-| TSUN TSOL-M350       | NRF24L01+          | 1         | 1           | 1         |
-| TSUN TSOL-M800       | NRF24L01+          | 2         | 2           | 1         |
-| TSUN TSOL-M1600      | NRF24L01+          | 4         | 2           | 1         |
-| E-Star HERF-800      | NRF24L01+          | 2         | 2           | 1         |
-| E-Star HERF-1600     | NRF24L01+          | 4         | 2           | 1         |
-| E-Star HERF-1800     | NRF24L01+          | 4         | 2           | 1         |
