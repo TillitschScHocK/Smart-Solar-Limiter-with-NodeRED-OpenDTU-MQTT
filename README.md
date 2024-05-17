@@ -1,5 +1,5 @@
 # Nulleinspeisung-Node-RED | OpenDTU | MQTT 
-
+[![OpenDTU Build](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml)
 [![OpenDTU]([https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml](https://github.com/tbnobody/OpenDTU))
 [![Node-RED]([(https://nodered.org))
 
