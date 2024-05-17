@@ -1,7 +1,31 @@
 # Nulleinspeisung-Node-RED | OpenDTU | MQTT 
-[![OpenDTU Build](https://github.com/tbnobody/OpenDTU/tree/master)](https://github.com/tbnobody/OpenDTU/tree/master)
-[![OpenDTU]([https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml/badge.svg)](https://github.com/tbnobody/OpenDTU/actions/workflows/build.yml](https://github.com/tbnobody/OpenDTU))
-[![Node-RED]([(https://nodered.org))
+
+## Erklärung
+Eine Nulleinspeisung bedeutet, dass die Photovoltaikanlage keine Energie ins öffentliche Stromnetz einspeist. Dies wird erreicht, 
+indem die Einspeiseleistung der PV-Anlage auf den aktuellen Stromverbrauch des Haushalts begrenzt wird.
+Mit Hilfe von Node-RED, OpenDTU und MQTT kann eine solche dynamische Leistungsbegrenzung realisiert werden.
+
+## Funktionsweise
+
+Dieses Node-RED-Skript ist ein Flow, der den aktuellen Stromverbrauch eines Haushalts überwacht und basierend darauf die Leistungsgrenze eines Wechselrichters dynamisch anpasst.
+Funktionsweise
+Der inject-Node löst alle 15 Sekunden einen neuen Durchlauf des Flows aus.
+Der time-range-switch-Node überprüft, ob die aktuelle Zeit zwischen Sonnenaufgang + 2 Stunden und Sonnenuntergang - 30 Minuten liegt. Wenn ja, wird der Flow fortgesetzt, ansonsten nicht.
+Der api-current-state-Node ruft den aktuellen Stromverbrauch des Haushalts von einer Home Assistant-Instanz ab. Dies ist der Wert des Sensors sensor.tasmota_lk13be_power_curr.
+Die function-Node berechnet basierend auf dem aktuellen Verbrauch eine neue Leistungsgrenze für den Wechselrichter:
+Die maximale Leistung des Wechselrichters ist 1500 Watt.
+Die aktuelle Leistungsgrenze wird aus dem Node-Kontext geladen oder auf den Maximalwert gesetzt.
+Der aktuelle Verbrauch wird zur Leistungsgrenze addiert.
+Die Leistungsgrenze wird auf den Bereich 0-1500 Watt begrenzt.
+Die neue Leistungsgrenze wird im Node-Kontext gespeichert und als msg.payload ausgegeben.
+Der rbe-Node entprellt die Leistungsgrenze, um zu häufige Änderungen zu vermeiden.
+Der range-Node skaliert die Leistungsgrenze von 0-1500 Watt auf 8-100 Prozent.
+Der mqtt out-Node sendet die skalierte Leistungsgrenze als Prozentsatz an den Wechselrichter über MQTT mit dem Topic solar/116180200170/cmd/limit_nonpersistent_relative.
+Die Debug-Nodes geben Zwischenwerte für Debugging-Zwecke aus.
+Um diesen Flow zu nutzen, müssen folgende Anpassungen vorgenommen werden:
+Im api-current-state-Node muss die Entity-ID an den tatsächlichen Stromsensor angepasst werden.
+Im mqtt out-Node müssen der MQTT-Broker und das Topic an die Wechselrichter-Konfiguration angepasst werden.
+
 
 ## NodeRED Flow
 
