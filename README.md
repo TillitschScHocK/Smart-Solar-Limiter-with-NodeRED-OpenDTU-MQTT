@@ -9,10 +9,10 @@ Mit Hilfe von Node-RED, OpenDTU und MQTT kann eine solche dynamische Leistungsbe
 
 Dieses Node-RED-Skript ist ein Flow, der den aktuellen Stromverbrauch eines Haushalts überwacht und basierend darauf die Leistungsgrenze eines Wechselrichters dynamisch anpasst.
 Funktionsweise
-Der inject-Node löst alle 15 Sekunden einen neuen Durchlauf des Flows aus.
-Der time-range-switch-Node überprüft, ob die aktuelle Zeit zwischen Sonnenaufgang + 2 Stunden und Sonnenuntergang - 30 Minuten liegt. Wenn ja, wird der Flow fortgesetzt, ansonsten nicht.
-Der api-current-state-Node ruft den aktuellen Stromverbrauch des Haushalts von einer Home Assistant-Instanz ab. Dies ist der Wert des Sensors sensor.tasmota_lk13be_power_curr.
-Die function-Node berechnet basierend auf dem aktuellen Verbrauch eine neue Leistungsgrenze für den Wechselrichter:
+  1. Der inject-Node löst alle 15 Sekunden einen neuen Durchlauf des Flows aus.
+  2. Der time-range-switch-Node überprüft, ob die aktuelle Zeit zwischen Sonnenaufgang + 2 Stunden und Sonnenuntergang - 30 Minuten liegt. Wenn ja, wird der Flow fortgesetzt, ansonsten nicht.
+  3. Der api-current-state-Node ruft den aktuellen Stromverbrauch des Haushalts von einer Home Assistant-Instanz ab. Dies ist der Wert des Sensors sensor.tasmota_lk13be_power_curr.
+  4. Die function-Node berechnet basierend auf dem aktuellen Verbrauch eine neue Leistungsgrenze für den Wechselrichter:
 Die maximale Leistung des Wechselrichters ist 1500 Watt.
 Die aktuelle Leistungsgrenze wird aus dem Node-Kontext geladen oder auf den Maximalwert gesetzt.
 Der aktuelle Verbrauch wird zur Leistungsgrenze addiert.
