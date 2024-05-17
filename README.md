@@ -27,7 +27,6 @@ Funktionsweise
   6. Der range-Node skaliert die Leistungsgrenze von 0-1500 Watt auf 8-100 Prozent.
   7. Der mqtt out-Node sendet die skalierte Leistungsgrenze als Prozentsatz an den Wechselrichter über MQTT mit dem Topic `solar/SERIENNUMMER_DES_WECHSELRICHTERS/cmd/limit_nonpersistent_relative`.
 
-
 ## NodeRED Flow
 
 Generated using: `git log --date=short --pretty=format:"* %h%x09%ad%x09%s" | grep BREAKING`
