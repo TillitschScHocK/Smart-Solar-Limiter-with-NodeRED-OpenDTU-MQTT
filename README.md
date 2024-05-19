@@ -5,7 +5,7 @@ Eine Nulleinspeisung bedeutet, dass die Photovoltaikanlage keine Energie ins öf
 indem die Einspeiseleistung der PV-Anlage auf den aktuellen Stromverbrauch des Haushalts begrenzt wird.
 Mit Hilfe von Node-RED, OpenDTU und MQTT kann eine solche dynamische Leistungsbegrenzung realisiert werden.
 
-**Wichtig: Ich übernehme keinerlei Haftung für Schäden oder Verluste, die durch die Nutzung dieses Projekt entstehen!**
+**Wichtig: Ich übernehme keinerlei Haftung für Schäden oder Verluste, die durch die Nutzung dieses Projekt entstehen könnten!**
 
 ## Voraussetzungen
 - [Node-RED](https://github.com/node-red/node-red?tab=readme-ov-file)
