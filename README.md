@@ -39,3 +39,4 @@ Funktionsweise
 ```
 
 Bei fragen nutzt gerne das Forum von Simon42. [Nulleinspeisung PV mit Node-Red](https://community.simon42.com/t/nulleinspeisung-pv-mit-node-red/615)
+Danke an [usekevin](https://community.simon42.com/u/usekevin/summary) der das ganze ermöglicht hat. <3
