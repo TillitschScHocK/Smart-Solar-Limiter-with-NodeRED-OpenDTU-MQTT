@@ -8,11 +8,10 @@ Mit Hilfe von Node-RED, OpenDTU und MQTT kann eine solche dynamische Leistungsbe
 **Wichtig: Ich übernehme keinerlei Haftung für Schäden oder Verluste, die durch die Nutzung dieses Projekt entstehen!**
 
 ## Voraussetzungen
-- [Nulleinspeisung PV mit Node-Red](https://community.simon42.com/t/nulleinspeisung-pv-mit-node-red/615).
-- [Node-RED]([https://community.simon42.com/t/nulleinspeisung-pv-mit-node-red/615](https://github.com/node-red/node-red?tab=readme-ov-file).
-- [Aktueller Stromverbauch ist auslesbar (Tasmota IR Lesekopf)]([https://community.simon42.com/t/nulleinspeisung-pv-mit-node-red/615](https://github.com/node-red/node-red?tab=readme-ov-file](https://tasmota.github.io/docs/Smart-Meter-Interface/).
-- [Euer Wechselrichter kann Limitiert werden (per MQTT)]([https://github.com/node-red/node-red?tab=readme-ov-file](https://tasmota.github.io/docs/Smart-Meter-Interface/).
-- [ESP-32 mit OpenDTU]([https://github.com/node-red/node-red?tab=readme-ov-file](https://tasmota.github.io/docs/Smart-Meter-Interface/)](https://github.com/tbnobody/OpenDTU).
+- [Node-RED](https://github.com/node-red/node-red?tab=readme-ov-file).
+- [Aktueller Stromverbauch ist auslesbar (Tasmota IR Lesekopf)](https://tasmota.github.io/docs/Smart-Meter-Interface/).
+- [Euer Wechselrichter kann Limitiert werden (per MQTT)](https://tasmota.github.io/docs/Smart-Meter-Interface/).
+- [ESP-32 mit OpenDTU](https://github.com/tbnobody/OpenDTU).
 
 ## Funktionsweise
 
