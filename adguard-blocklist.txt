@@ -1,0 +1,47 @@
+! Title: AdGuard Blocklist
+! Description: Blockiert die bekanntesten Werbenetzwerke, lässt aber den Zugriff auf die Webseiten zu.
+! Version: 1.0
+! Last modified: 2024-10-22
+!
+! Blockiert bekannte Werbung, aber erlaubt den Zugriff auf die Seite.
+! Quelle: Angepasst basierend auf bekannten Werbenetzwerken und Trackern
+!
+! -- Werbung & Tracking --
+0.0.0.0 googleads.g.doubleclick.net
+0.0.0.0 pagead2.googlesyndication.com
+0.0.0.0 securepubads.g.doubleclick.net
+0.0.0.0 tpc.googlesyndication.com
+0.0.0.0 ad.doubleclick.net
+0.0.0.0 static.doubleclick.net
+0.0.0.0 google-analytics.com
+0.0.0.0 stats.g.doubleclick.net
+0.0.0.0 ads.pubmatic.com
+0.0.0.0 track.adform.net
+0.0.0.0 cdn.taboola.com
+0.0.0.0 ads.yahoo.com
+0.0.0.0 connect.facebook.net
+0.0.0.0 static.ads-twitter.com
+0.0.0.0 analytics.twitter.com
+0.0.0.0 ads.msn.com
+0.0.0.0 tags.tiqcdn.com
+0.0.0.0 ads.moatads.com
+0.0.0.0 cdnjs.cloudflare.com
+0.0.0.0 pixel.mathtag.com
+0.0.0.0 js-agent.newrelic.com
+0.0.0.0 www.googletagservices.com
+
+! -- Bekannte Popup-Werbung --
+0.0.0.0 popads.net
+0.0.0.0 adsterra.com
+0.0.0.0 adnetworkperformance.com
+
+! -- Social Media Tracking --
+0.0.0.0 graph.facebook.com
+0.0.0.0 analytics.snapchat.com
+0.0.0.0 static.ads-twitter.com
+0.0.0.0 pixel.facebook.com
+
+! -- Weitere Trackingdienste --
+0.0.0.0 doubleclick.net
+0.0.0.0 cloudfront.net
+0.0.0.0 ads.exoclick.com
