@@ -54,7 +54,7 @@ This Node-RED flow monitors the household's current power consumption and adjust
 
 ### MQTT Broker Settings
 ```javascript
-Broker: 192.168.188.88
+Broker: <MQTT Broker IP-Adress>
 Port: 1883
 Topic: solar/SERIAL_NUMBER_OF_INVERTER/cmd/limit_nonpersistent_relative
 ```
